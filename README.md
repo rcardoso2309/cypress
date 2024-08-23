@@ -1,70 +1,120 @@
-# Getting Started with Create React App
+<!DOCTYPE html>
+<html lang="en">
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
 
-## Available Scripts
+<body>
 
-In the project directory, you can run:
+</body>
 
-### `npm start`
+</html>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Aqui está um exemplo simples de um código React com testes usando Cypress:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 1. Criar o projeto React
+Primeiro, você precisa criar um novo projeto React. Se você ainda não o fez, pode usar o create-react-app:
 
-### `npm test`
+bash
+npx create-react-app react-cypress-example
+cd react-cypress-example
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+### 2. Criar um Componente Simples
+Vamos criar um componente React simples, por exemplo, um botão que muda de texto ao ser clicado.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Crie um arquivo chamado Button.js em src/components/:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+jsx
+// src/components/Button.js
+import React, { useState } from 'react';
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+const Button = () => {
+const [text, setText] = useState('Clique aqui');
 
-### `npm run eject`
+const handleClick = () => {
+setText('Você clicou!');
+};
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+return <button onClick={handleClick}>{text}</button>;
+};
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+export default Button;
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Em seguida, importe esse componente no App.js:
 
-## Learn More
+jsx
+// src/App.js
+import React from 'react';
+import Button from './components/Button';
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+function App() {
+return (
+<div className="App">
+  <h1>Testando Cypress com React</h1>
+  <Button />
+</div>
+);
+}
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+export default App;
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### 3. Configurar o Cypress
+Para instalar o Cypress no seu projeto, execute:
 
-### Analyzing the Bundle Size
+bash
+npm install cypress --save-dev
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
+Após a instalação, abra o Cypress:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+bash
+npx cypress open
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Isso criará uma pasta cypress no seu projeto.
 
-### Deployment
+### 4. Escrever um Teste Cypress
+Vamos criar um teste simples para verificar se o texto do botão muda quando clicado.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Crie um arquivo de teste em cypress/e2e chamado button.cy.js:
 
-### `npm run build` fails to minify
+javascript
+// cypress/e2e/button.cy.js
+describe('Button Component', () => {
+it('changes text when clicked', () => {
+cy.visit('http://localhost:3000');
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+cy.contains('Clique aqui').click();
+
+cy.contains('Você clicou!').should('exist');
+});
+});
+
+
+### 5. Rodar o Teste
+Certifique-se de que o seu servidor de desenvolvimento do React esteja rodando:
+
+bash
+npm start
+
+
+Em seguida, execute os testes Cypress com o comando:
+
+bash
+npx cypress open
+
+
+O Cypress abrirá uma janela, e você pode selecionar o teste button.cy.js para executá-lo.
+
+### Resumo
+- Criamos um simples componente React com um botão.
+- Instalamos e configuramos o Cypress para testes.
+- Escrevemos um teste que verifica se o texto do botão muda ao ser clicado.
+
+Isso fornece uma base para você começar a escrever testes com Cypress em um projeto React.
